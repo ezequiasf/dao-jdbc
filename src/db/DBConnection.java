@@ -27,6 +27,31 @@ public class DBConnection {
         return con;
     }
     
+    public static void createTable(){
+        Statement st = null;
+        
+        String codeSql2 = "create table Time"
+                + "(id int, varchar(10) nome)";
+        
+        String codeSql = "create table Jogador"
+                + "(id int, varchar(10) nome,"
+                + "dataNascimento datetime,"
+                + "numeroCamisa int, foreign key(timeid)"
+                + "references Time)";
+        try {
+            st = con.createStatement();
+            st.executeUpdate(codeSql2);
+            st.executeUpdate(codeSql);
+            System.out.println("Tabelas criadas com sucesso!");
+        } catch (SQLException ex) {
+            throw new DBException(ex.getMessage());
+        }
+        finally{
+            closeStatement(st);
+        }
+    }
+    
+    
     public static Properties loadProperties(){
         try(FileInputStream fs = new FileInputStream("db.properties")){
             Properties prop = new Properties();
