@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 /**
  *
@@ -77,10 +74,10 @@ public class JogadorDaoJDBC implements GenericDAO<Jogador> {
                     + "SET nome = ?,dataNascimento = ?, numeroCamisa = ?, timeid = ?"
                     + " WHERE id = ? ");
             ps.setString(1,jog.getNome());
-            ps.setDate(1,new Date(jog.getDataNascimento().getTime()));
-            ps.setInt(1,jog.getNumeroCamisa());
-            ps.setInt(1,jog.getTime().getId());
-            ps.setInt(1,jog.getId());
+            ps.setDate(2,new Date(jog.getDataNascimento().getTime()));
+            ps.setInt(3,jog.getNumeroCamisa());
+            ps.setInt(4,jog.getTime().getId());
+            ps.setInt(5,jog.getId());
             ps.executeUpdate();
         } catch (SQLException ex) {
             throw new DBException(ex.getMessage());
@@ -155,7 +152,6 @@ public class JogadorDaoJDBC implements GenericDAO<Jogador> {
               }   
               Jogador jog = instanciaJogador(rs,time);
               lista.add(jog);
-             
           }
           return lista;
        }catch(SQLException e){
@@ -185,7 +181,7 @@ public class JogadorDaoJDBC implements GenericDAO<Jogador> {
     }
 
     @Override
-    public List<Jogador> findByRelation(Object relation) {
+    public List<Jogador> findByRelation(Object relation){
        if(!(relation instanceof Time))
            throw new DBException("Não foi encontrada nenhuma relação com este "
                    + "objeto na tabela em questão.");

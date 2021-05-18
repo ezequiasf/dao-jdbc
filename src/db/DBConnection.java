@@ -19,6 +19,7 @@ public class DBConnection {
                 Properties props = loadProperties();
                 String urlBanco = props.getProperty("dburl");
                 con = DriverManager.getConnection(urlBanco, props);
+                createTables();
             }
         }
         catch(SQLException e){
@@ -27,7 +28,7 @@ public class DBConnection {
         return con;
     }
     
-    public static void createTable(){
+    private static void createTables(){
         Statement st = null;
         
         String codeSql2 = "create table Time"
